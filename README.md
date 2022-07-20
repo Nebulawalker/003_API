@@ -20,6 +20,7 @@ mv .env_example .env
 Пример .env:
 ```
 NASA_API_KEY=1234567890abcdefghijklmnopqrstuvwxyz1234
+TELEGRAM_TOKEN=958423683:AAEAtJ5Lde5YYfkjergber
 ```
 
 ## Запуск
