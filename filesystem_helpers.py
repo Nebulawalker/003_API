@@ -2,6 +2,7 @@ import requests
 import os
 from urllib.parse import urlparse
 from typing import Iterable
+from image_compressor import compress_image
 
 
 def download_images(urls: Iterable, service: str) -> None:
@@ -10,8 +11,12 @@ def download_images(urls: Iterable, service: str) -> None:
         response = requests.get(url)
         response.raise_for_status()
         file_extention = get_extension(url)
-        with open(f"image/{service}_{index}{file_extention}", "wb") as file:
+        path = f"image/{service}_{index}{file_extention}"
+        with open(path, "wb") as file:
             file.write(response.content)
+
+        if os.path.getsize(path) > 20971520:
+            compress_image(path)
 
 
 def get_extension(url):
