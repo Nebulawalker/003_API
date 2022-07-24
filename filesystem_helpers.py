@@ -5,6 +5,9 @@ from typing import Iterable
 from image_compressor import compress_image
 
 
+TELEGRAM_IMAGE_SIZE_LIMIT = 20971520
+
+
 def download_images(urls: Iterable, service: str) -> None:
     os.makedirs("image", exist_ok=True)
     for index, url in enumerate(urls):
@@ -15,7 +18,7 @@ def download_images(urls: Iterable, service: str) -> None:
         with open(path, "wb") as file:
             file.write(response.content)
 
-        if os.path.getsize(path) > 20971520:
+        if os.path.getsize(path) > TELEGRAM_IMAGE_SIZE_LIMIT:
             compress_image(path)
 
 
