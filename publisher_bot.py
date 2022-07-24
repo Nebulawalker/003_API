@@ -48,9 +48,9 @@ def publish_post(
                     media=open(f"{image_path}{file_names[index]}", "rb")
                 )
             )
-
+        chat_id = os.getenv("CHAT_ID")
         bot.send_media_group(
-            chat_id="@cosmos_photos",
+            chat_id=chat_id,
             media=album_for_publication)
         print("Опубликован пост")
         time.sleep(periodicity_in_seconds)

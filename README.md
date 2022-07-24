@@ -21,10 +21,13 @@ poetry install
     ```
     NASA_API_KEY=1234567890abcdefghijklmnopqrstuvwxyz1234
     TELEGRAM_TOKEN=958423683:AAEAtJ5Lde5YYfkjergber
+    CHAT_ID=@your_chat_id
     ```
 *Как получить TELEGRAM_TOKEN: https://way23.ru/регистрация-бота-в-telegram.html
 
 *Где получить NASA_API_KEY: https://api.nasa.gov/
+
+*CHAT_ID можно посмотреть в описании канала
 
 6. Активировать виртуальное окружение:
 
