@@ -55,6 +55,7 @@ __1.2 Сервис NASA Astronomy Picture of the Day (APOD) (fetch_nasa_apod.py)
 
 Скрипт скачивает фотографии NASA Astronomy Picture of the Day (APOD).
 Без аргумета скачивает 1 фото, если указан аргумент, то скачивает указанное количество фото.
+Поддерживает скачивание только следующих форматов : gif, jpg, png.
 
 ```
 usage: fetch_nasa_apod.py [-h] [-c IMAGE_COUNT]
