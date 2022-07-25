@@ -8,11 +8,15 @@ from image_compressor import compress_image
 TELEGRAM_IMAGE_SIZE_LIMIT = 20971520
 
 
-def download_images(urls: Iterable, service: str) -> None:
+def download_images(
+    urls: Iterable,
+    service: str,
+    payload: dict = {"": ""}
+) -> None:
     os.chdir(os.path.dirname(__file__))
     os.makedirs("image", exist_ok=True)
     for index, url in enumerate(urls):
-        response = requests.get(url)
+        response = requests.get(url, params=payload)
         response.raise_for_status()
         file_extention = get_extension(url)
         path = os.path.join(
