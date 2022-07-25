@@ -3,10 +3,10 @@ import os
 import argparse
 
 from dotenv import load_dotenv
-from filesystem_helpers import download_images
-
+from filesystem_helpers import download_images, get_extension
 
 NASA_APOD_API_URL = "https://api.nasa.gov/planetary/apod"
+SUPPORTED_IMAGES = (".jpg", ".png", ".gif")
 
 
 def fetch_nasa_apod(api_key: str, apod_api_url: str, image_count: int) -> None:
@@ -17,7 +17,12 @@ def fetch_nasa_apod(api_key: str, apod_api_url: str, image_count: int) -> None:
     response = requests.get(apod_api_url, params=payload)
     response.raise_for_status()
     records = response.json()
-    image_urls = [record["url"] for record in records]
+
+    image_urls = []
+    for record in records:
+        url = record.get("url")
+        if url and get_extension(url) in SUPPORTED_IMAGES:
+            image_urls.append(url)
 
     download_images(image_urls, "nasa_apod")
 
@@ -29,7 +34,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="Скрипт скачивает фотографии NASA Astronomy Picture of the Day (APOD). \
         Без аргумета скачивает 1 фото \
-        если указан аргумент, то скачивает указанное количество фото."
+        если указан аргумент, то скачивает указанное количество фото. \
+        Поддерживает скачивание только следующих форматов : gif, jpg, png."
     )
     parser.add_argument(
         "-c", "--image_count",
