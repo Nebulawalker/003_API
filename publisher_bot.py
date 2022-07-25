@@ -36,18 +36,17 @@ def publish_post(
     while True:
         file_names = os.listdir(image_path)
         random.shuffle(file_names)
+        with open(f"{image_path}{file_names[0]}", "rb") as media:
+            album_for_publication = [
+                InputMediaPhoto(media=media, caption=caption)]
 
-        album_for_publication = [
-            InputMediaPhoto(
-                media=open(f"{image_path}{file_names[0]}", "rb"),
-                caption=caption)
-        ]
         for index in range(1, image_count):
-            album_for_publication.append(
-                InputMediaPhoto(
-                    media=open(f"{image_path}{file_names[index]}", "rb")
+            with open(f"{image_path}{file_names[index]}", "rb") as media:
+                album_for_publication.append(
+                    InputMediaPhoto(
+                        media=media
+                    )
                 )
-            )
         chat_id = os.getenv("CHAT_ID")
         bot.send_media_group(
             chat_id=chat_id,
