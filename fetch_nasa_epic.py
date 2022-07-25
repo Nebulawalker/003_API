@@ -22,10 +22,11 @@ def fetch_nasa_epic(api_key: str, epic_api_url: str) -> None:
         image_name = f"{photo_info['image']}.png"
         image_urls.append(
             f"https://api.nasa.gov/EPIC/archive/natural/"
-            f"{formated_date}/png/{image_name}?api_key={api_key}"
+            f"{formated_date}/png/{image_name}"
         )
+
     random.shuffle(image_urls)
-    download_images(image_urls[:4], "nasa_epic")
+    download_images(image_urls[:4], "nasa_epic", payload)
 
 
 def main():
