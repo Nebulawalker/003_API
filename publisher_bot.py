@@ -18,6 +18,7 @@ def publish_post(
 ) -> None:
 
     periodicity_in_seconds = periodicity_in_hours * 3600
+    connection_attempts = 1
 
     file_names = os.listdir(image_path)
     if len(file_names) < image_count:
@@ -47,12 +48,32 @@ def publish_post(
                         media=media
                     )
                 )
-        chat_id = os.getenv("CHAT_ID")
-        bot.send_media_group(
-            chat_id=chat_id,
-            media=album_for_publication)
-        print("Опубликован пост")
+
+        try:
+            chat_id = os.getenv("CHAT_ID")
+            bot.send_media_group(
+                chat_id=chat_id,
+                media=album_for_publication)
+            print("Опубликован пост...")
+        except telegram.error.NetworkError as e:
+            if connection_attempts == 1:
+                print(
+                    f"Нет соединения с сервером:\n{e}\n\n"
+                    f"Попытка подключения № {connection_attempts}...\n\n"
+                )
+                time.sleep(1)
+                connection_attempts += 1
+            else:
+                print(
+                    f"Нет соединения с сервером:\n{e}\n\n"
+                    f"Попытка подключения № {connection_attempts}...\n\n"
+                )
+                time.sleep(30)
+                connection_attempts += 1
+            continue
+
         time.sleep(periodicity_in_seconds)
+        connection_attempts = 1
 
 
 def main():
