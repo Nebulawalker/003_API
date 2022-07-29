@@ -27,15 +27,13 @@ def main():
     )
     parser.add_argument(
         "-id", "--flight_id",
-        help="ID запуска"
+        help="ID запуска",
+        default="latest"
     )
     launch_ID = parser.parse_args().flight_id
 
     try:
-        if launch_ID:
-            fetch_spacex_launch(f"{SPACEX_API_URL}{launch_ID}")
-        else:
-            fetch_spacex_launch(f"{SPACEX_API_URL}latest")
+        fetch_spacex_launch(f"{SPACEX_API_URL}{launch_ID}")
     except requests.exceptions.HTTPError as error:
         print(f"При выгрузке изображений возникла ошибка: {error}")
 
