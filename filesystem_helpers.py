@@ -11,7 +11,7 @@ TELEGRAM_IMAGE_SIZE_LIMIT = 20971520
 def download_images(
     urls: Iterable,
     service: str,
-    payload: dict = {"": ""}
+    payload: dict | None = None
 ) -> None:
     os.chdir(os.path.dirname(__file__))
     os.makedirs("image", exist_ok=True)
