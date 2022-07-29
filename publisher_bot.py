@@ -50,7 +50,7 @@ def publish_post(
                 )
 
         try:
-            chat_id = os.getenv("CHAT_ID")
+            chat_id = os.getenv("TELEGRAM_CHAT_ID")
             bot.send_media_group(
                 chat_id=chat_id,
                 media=album_for_publication)
