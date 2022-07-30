@@ -5,8 +5,19 @@ import random
 import time
 import argparse
 
-
 from dotenv import load_dotenv
+
+TELEGRAM_IMAGES_IN_ALBUM_LIMIT = 10
+
+
+def get_record_for_album(
+    path: str,
+    file_name: str,
+    caption: str = None
+) -> InputMediaPhoto:
+
+    with open(os.path.join(path, file_name), "rb") as media:
+        return InputMediaPhoto(media=media, caption=caption)
 
 
 def publish_post(
@@ -23,8 +34,8 @@ def publish_post(
     file_names = os.listdir(image_path)
     if len(file_names) < image_count:
         image_count = len(file_names)
-    elif image_count > 10:
-        image_count = 10
+    elif image_count > TELEGRAM_IMAGES_IN_ALBUM_LIMIT:
+        image_count = TELEGRAM_IMAGES_IN_ALBUM_LIMIT
 
     print(
         f"Запущена автоматическая публикация постов в Telegram:\n"
@@ -37,17 +48,18 @@ def publish_post(
     while True:
         file_names = os.listdir(image_path)
         random.shuffle(file_names)
-        with open(f"{image_path}{file_names[0]}", "rb") as media:
-            album_for_publication = [
-                InputMediaPhoto(media=media, caption=caption)]
 
-        for index in range(1, image_count):
-            with open(f"{image_path}{file_names[index]}", "rb") as media:
-                album_for_publication.append(
-                    InputMediaPhoto(
-                        media=media
-                    )
-                )
+        for index, file in enumerate(file_names, 1):
+            if index == 1:
+                album_for_publication = [
+                    get_record_for_album(image_path, file, caption)
+                ]
+                continue
+            album_for_publication.append(
+                get_record_for_album(image_path, file)
+            )
+            if index == image_count:
+                break
 
         try:
             chat_id = os.getenv("TELEGRAM_CHAT_ID")
@@ -89,7 +101,7 @@ def main():
     parser.add_argument(
         "-i", "--image_count",
         help="Количество изображений в посте (по умолчанию 4)",
-        default=4, type=int
+        default=6, type=int
     )
     parser.add_argument(
         "-p", "--periodicity_in_hours",
@@ -98,8 +110,8 @@ def main():
     )
     parser.add_argument(
         "-ip", "--image_path",
-        help="Каталог с фото (по умолчанию 'image/')",
-        default="image/"
+        help="Каталог с фото (по умолчанию 'image')",
+        default="image"
     )
     parser.add_argument(
         "-c", "--caption",
