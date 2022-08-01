@@ -5,7 +5,6 @@ from filesystem_helpers import download_images
 
 
 SPACEX_API_URL = "https://api.spacexdata.com/v4/launches/"
-# 5eb87d47ffd86e000604b38a ID запуска с фотками
 
 
 def fetch_spacex_launch(spacex_launch_url: str) -> None:
