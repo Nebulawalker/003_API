@@ -18,7 +18,7 @@ def download_images(
     for index, url in enumerate(urls):
         response = requests.get(url, params=payload)
         response.raise_for_status()
-        file_extention = get_extension(url)
+        file_extention = get_extention(url)
         path = os.path.join(
             "image",
             f"{service}_{index}{file_extention}"
@@ -30,8 +30,8 @@ def download_images(
             compress_image(path)
 
 
-def get_extension(url):
+def get_extention(url):
     parsed_url = urlparse(url)
     file_path = os.path.splitext(parsed_url.path)
-    file_extension = file_path[1]
-    return file_extension
+    file_extention = file_path[1]
+    return file_extention
