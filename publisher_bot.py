@@ -109,7 +109,7 @@ def main():
         default=4, type=float
     )
     parser.add_argument(
-        "-ip", "--image_path",
+        "-isp", "--image_source_path",
         help="Каталог с фото (по умолчанию 'image')",
         default="image"
     )
@@ -120,7 +120,7 @@ def main():
 
     image_count = parser.parse_args().image_count
     periodicity_in_hours = parser.parse_args().periodicity_in_hours
-    image_path = parser.parse_args().image_path
+    image_source_path = parser.parse_args().image_source_path
     caption = parser.parse_args().caption
 
     try:
@@ -128,7 +128,7 @@ def main():
             bot,
             image_count,
             periodicity_in_hours,
-            image_path,
+            image_source_path,
             caption
         )
     except KeyboardInterrupt:
