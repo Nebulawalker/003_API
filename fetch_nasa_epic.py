@@ -2,6 +2,7 @@ import os
 import requests
 import datetime
 import random
+import argparse
 
 from dotenv import load_dotenv
 from filesystem_helpers import download_images
@@ -10,7 +11,7 @@ from filesystem_helpers import download_images
 NASA_EPIC_API_URL = "https://api.nasa.gov/EPIC/api/natural/images"
 
 
-def fetch_nasa_epic(api_key: str, epic_api_url: str) -> None:
+def fetch_nasa_epic(api_key: str, epic_api_url: str, image_count: int) -> None:
     payload = {"api_key": api_key}
     response = requests.get(epic_api_url, params=payload)
     response.raise_for_status()
@@ -26,13 +27,27 @@ def fetch_nasa_epic(api_key: str, epic_api_url: str) -> None:
         )
 
     random.shuffle(image_urls)
-    download_images(image_urls[:4], "nasa_epic", payload)
+    download_images(image_urls[:image_count], "nasa_epic", payload)
 
 
 def main():
     load_dotenv()
     nasa_api_key = os.getenv("NASA_API_KEY")
-    fetch_nasa_epic(nasa_api_key, NASA_EPIC_API_URL)
+
+    parser = argparse.ArgumentParser(
+        description="Скрипт скачивает фотографии NASA EPIC. \
+        Без аргумета скачивает 4 фото \
+        если указан аргумент, то скачивает указанное количество фото."
+    )
+    parser.add_argument(
+        "-c", "--image_count",
+        help="Количество фотографий",
+        default=4,
+        type=int
+    )
+    image_count = parser.parse_args().image_count
+
+    fetch_nasa_epic(nasa_api_key, NASA_EPIC_API_URL, image_count)
 
 
 if __name__ == "__main__":

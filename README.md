@@ -80,11 +80,22 @@ python fetch_nasa_apod.py -c 30
     
 __1.3 Сервис NASA EPIC (fetch_nasa_epic.py)__
 
-Скрипт скачивает 4 случайные фото Земли с разных ракурсов.
+```bash
+usage: fetch_nasa_epic.py [-h] [-c IMAGE_COUNT]
+
+Скрипт скачивает фотографии NASA EPIC. Без аргумета скачивает 4 фото,
+если указан аргумент, то скачивает указанное количество фото.
+
+options:
+  -h, --help            show this help message and exit
+  -c IMAGE_COUNT, --image_count IMAGE_COUNT
+                        Количество фотографий
+```
 
 ```bash
-python fetch_nasa_epic.py
+python fetch_nasa_epic.py -c 5
 ```
+Скачает 5 фото.
 
 __2. Для публикации постов с фотографиями (publisher_bot)__
 
