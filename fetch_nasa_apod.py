@@ -39,15 +39,13 @@ def main():
     )
     parser.add_argument(
         "-c", "--image_count",
-        help="Количество фотографий"
+        help="Количество фотографий",
+        default=1
     )
     image_count = parser.parse_args().image_count
 
     try:
-        if image_count:
-            fetch_nasa_apod(nasa_api_key, NASA_APOD_API_URL, image_count)
-        else:
-            fetch_nasa_apod(nasa_api_key, NASA_APOD_API_URL, 1)
+        fetch_nasa_apod(nasa_api_key, NASA_APOD_API_URL, image_count)
     except requests.exceptions.HTTPError as error:
         print(f"При выгрузке изображений возникла ошибка: {error}")
 
