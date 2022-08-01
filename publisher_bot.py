@@ -33,10 +33,12 @@ def publish_post(
     connection_attempts = 1
 
     file_names = os.listdir(image_path)
-    if len(file_names) < image_count:
-        image_count = len(file_names)
-    elif image_count > TELEGRAM_IMAGES_IN_ALBUM_LIMIT:
-        image_count = TELEGRAM_IMAGES_IN_ALBUM_LIMIT
+
+    image_count = min(
+        len(file_names),
+        image_count,
+        TELEGRAM_IMAGES_IN_ALBUM_LIMIT
+    )
 
     print(
         f"Запущена автоматическая публикация постов в Telegram:\n"
@@ -49,18 +51,14 @@ def publish_post(
     while True:
         file_names = os.listdir(image_path)
         random.shuffle(file_names)
+        file_names[:image_count]
+        album_for_publication = []
 
         for index, file in enumerate(file_names, 1):
-            if index == 1:
-                album_for_publication = [
-                    get_record_for_album(image_path, file, caption)
-                ]
-                continue
+            caption_ = caption if index == 1 else None
             album_for_publication.append(
-                get_record_for_album(image_path, file)
+                get_record_for_album(image_path, file, caption_)
             )
-            if index == image_count:
-                break
 
         try:
             bot.send_media_group(
@@ -101,7 +99,7 @@ def main():
 
     parser.add_argument(
         "-i", "--image_count",
-        help="Количество изображений в посте (по умолчанию 4)",
+        help="Количество изображений в посте (по умолчанию 6)",
         default=6, type=int
     )
     parser.add_argument(
