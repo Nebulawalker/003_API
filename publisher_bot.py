@@ -22,6 +22,7 @@ def get_record_for_album(
 
 def publish_post(
     bot: telegram.Bot,
+    chat_id: str,
     image_count: int,
     periodicity_in_hours: float,
     image_path: str,
@@ -62,7 +63,6 @@ def publish_post(
                 break
 
         try:
-            chat_id = os.getenv("TELEGRAM_CHAT_ID")
             bot.send_media_group(
                 chat_id=chat_id,
                 media=album_for_publication)
@@ -91,6 +91,7 @@ def publish_post(
 def main():
     load_dotenv()
     telegram_token = os.getenv("TELEGRAM_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
     bot = telegram.Bot(token=telegram_token)
 
     parser = argparse.ArgumentParser(
@@ -126,6 +127,7 @@ def main():
     try:
         publish_post(
             bot,
+            chat_id,
             image_count,
             periodicity_in_hours,
             image_source_path,
