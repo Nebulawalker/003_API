@@ -36,7 +36,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         description="Скрипт скачивает фотографии NASA EPIC. \
-        Без аргумета скачивает 4 фото \
+        Без аргумента скачивает 4 фото \
         если указан аргумент, то скачивает указанное количество фото."
     )
     parser.add_argument(

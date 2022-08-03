@@ -20,7 +20,7 @@ def fetch_spacex_launch(spacex_launch_url: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Скрипт скачивает фотографии SpaceX. Без аргумета \
+        description="Скрипт скачивает фотографии SpaceX. Без аргумента \
         скачивает фото последнего запуска (если есть), \
         если указан ID, то скачивает фото указанного запуска."
     )
