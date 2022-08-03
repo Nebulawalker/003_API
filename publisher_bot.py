@@ -51,10 +51,10 @@ def publish_post(
     while True:
         file_names = os.listdir(image_path)
         random.shuffle(file_names)
-        file_names[:image_count]
+        file_names_for_publication = file_names[:image_count]
         album_for_publication = []
 
-        for index, file in enumerate(file_names, 1):
+        for index, file in enumerate(file_names_for_publication, 1):
             caption_ = caption if index == 1 else None
             album_for_publication.append(
                 get_record_for_album(image_path, file, caption_)
